@@ -3,7 +3,7 @@
 //  GCD
 //
 //  Created by Patrick Perini on 11/14/11.
-//  Copyright (c) 2011 Inspyre Technologies. All rights reserved.
+//  Licensing information available in README.md
 //
 
 #import "GCD.h"
