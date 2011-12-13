@@ -23,6 +23,10 @@ To use this class, simply run the method most applicable to your concurrency nee
     + doInForeground:after:
     + doInForeground:when:
 
+###Running Tasks Repeatedly###
+    + doInForeground:every:
+    + doInBackground:every:
+
 ###Flow Control###
     sync
 
@@ -84,6 +88,38 @@ To use this class, simply run the method most applicable to your concurrency nee
 >`condition`
 
 >>The condition to wait for prior to executing the given block.
+
+**doInForeground:every:**
+
+>Repeatedly executes a block on the main thread after waiting for the specified time.
+
+         + (void)doInForeground:(void (^)(void))block every:(NSTimeInterval)interval
+
+>*Parameters:*
+
+>`block`
+
+>>The block to execute synchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
+
+>`interval`
+
+>>The amount of time in seconds to wait between executing the given block.
+
+**doInBackground:every:**
+
+>Repeatedly executes a block on the main thread after waiting for the specified time.
+
+         + (void)doInBackground:(void (^)(void))block every:(NSTimeInterval)interval
+
+>*Parameters:*
+
+>`block`
+
+>>The block to execute asynchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
+
+>`interval`
+
+>>The amount of time in seconds to wait between executing the given block.
 
 ##Macros##
 
