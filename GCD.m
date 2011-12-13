@@ -30,11 +30,8 @@
 + (void)doInForeground:(void (^)(void))block when:(_Bool)condition
 {
     [GCD doInBackground: ^{
-        while (!condition)
-        {
-            sleep(1);
-        }
-        
+        while(!condition) {sleep(1);}
+
         [GCD doInForeground: block];
     }];
 }
