@@ -20,6 +20,10 @@
 
 + (void)doInForeground:        (void (^)(void))block            when:  (_Bool)condition;
 
++ (void)doInForeground:        (void (^)(void))block            every: (NSTimeInterval)interval
+
++ (void)doInBackground:        (void (^)(void))block            every: (NSTimeInterval)interval
+
 // Misc. Macros
 #define sync(semaphore)        if(!semaphore) {return;}
 
