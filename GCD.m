@@ -39,4 +39,24 @@
     }];
 }
 
++ (void)doInForeground:(void (^)(void))block every:(NSTimeInterval)interval
+{
+    [GCD doInBackground: ^{
+       for(;; sleep(interval))
+       {
+            [GCD doInForeground: block];   
+       }
+    }];
+}
+
++ (void)doInBackground:(void (^)(void))block every:(NSTimeInterval)interval
+{
+    [GCD doInBackground: ^{
+        for(;; sleep(interval)
+        {
+            block();
+        }
+    }];
+}
+
 @end
