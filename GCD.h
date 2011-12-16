@@ -27,4 +27,7 @@
 // Misc. Macros
 #define sync(semaphore)        if(!semaphore) {return;}
 
+// Main Flow Control Methods
++ (void)doOnce                 (void (^)(void))block;
+
 @end
