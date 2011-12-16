@@ -56,4 +56,11 @@
     }];
 }
 
+//Main Flow Control Methods
++ (void)doOnce:(void (^)(void))block
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, block);
+}
+
 @end
