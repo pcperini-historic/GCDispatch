@@ -29,6 +29,7 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 ###Flow Control###
     sync
+    + doOnce:
 
 
 ##Class Methods##
@@ -120,6 +121,18 @@ To use this class, simply run the method most applicable to your concurrency nee
 >`interval`
 
 >>The amount of time in seconds to wait between executing the given block.
+
+**doOnce:**
+
+>Execute a block of code once in the lifetime of the program.
+
+        + (void)doOnce:(void (^)(void))block
+        
+>*Parameters:*
+
+>`block`
+
+>>The block to execute once.
 
 ##Macros##
 
