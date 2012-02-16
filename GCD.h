@@ -28,6 +28,6 @@
 #define sync(semaphore)        if(!semaphore) {return;}
 
 // Main Flow Control Methods
-+ (void)doOnce                 (void (^)(void))block;
++ (void)doOnce:                (void (^)(void))block;
 
 @end
