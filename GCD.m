@@ -49,7 +49,7 @@
 + (void)doInBackground:(void (^)(void))block every:(NSTimeInterval)interval
 {
     [GCD doInBackground: ^{
-        for(;; sleep(interval)
+        for(;; sleep(interval))
         {
             block();
         }
