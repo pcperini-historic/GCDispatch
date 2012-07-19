@@ -2,7 +2,7 @@
 
 **This documentation is long outdated.** As you can see, it doesn't even refer to the classes as they exist anymore.
 GCDispatch grew out of GCD, and it has yet to be documented. The .h files are pretty explanitory though, so they ought to suffice until I can write some documentation. Enjoy!
-
+```C
     /*
         #GCD#
 
@@ -154,6 +154,7 @@ GCDispatch grew out of GCD, and it has yet to be documented. The .h files are pr
 
         >>The value used to determine whether the currently-executing function should terminate.
     */
+```
 
 #License#
 
