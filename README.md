@@ -1,152 +1,159 @@
-#GCD#
+# Heads Up #
 
+**This documentation is long outdated.** As you can see, it doesn't even refer to the classes as they exist anymore.
+GCDispatch grew out of GCD, and it has yet to be documented. The .h files are pretty explanitory though, so they ought to suffice until I can write some documentation. Enjoy!
 
+    /*
+        #GCD#
 
-Inherits From:    NSObject
 
-Declared In:      GCD.h
 
+        Inherits From:    NSObject
 
-##Overview##
+        Declared In:      GCD.h
 
-The `GCD` class provides a simple interface for utilizing several of the Grand Central Dispatch functions.
 
-To use this class, simply run the method most applicable to your concurrency needs. 
+        ##Overview##
 
-##Tasks##
+        The `GCD` class provides a simple interface for utilizing several of the Grand Central Dispatch functions.
 
-###Running Tasks by Queue###
-    + doInBackground:
-    + doInForeground:
-    
-###Running Tasks by Condition####
-    + doInForeground:after:
-    + doInForeground:when:
+        To use this class, simply run the method most applicable to your concurrency needs. 
 
-###Running Tasks Repeatedly###
-    + doInForeground:every:
-    + doInBackground:every:
+        ##Tasks##
 
-###Flow Control###
-    sync
-    + doOnce:
+        ###Running Tasks by Queue###
+            + doInBackground:
+            + doInForeground:
+            
+        ###Running Tasks by Condition####
+            + doInForeground:after:
+            + doInForeground:when:
 
+        ###Running Tasks Repeatedly###
+            + doInForeground:every:
+            + doInBackground:every:
 
-##Class Methods##
+        ###Flow Control###
+            sync
+            + doOnce:
 
-**doInBackground:**
 
->Submits the given block for asynchronous execution and returns immediately.
+        ##Class Methods##
 
-        + (void)doInBackground:(void (^)(void))block
+        **doInBackground:**
 
->*Parameters:*
+        >Submits the given block for asynchronous execution and returns immediately.
 
->`block`
+                + (void)doInBackground:(void (^)(void))block
 
->>The block to execute asynchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
+        >*Parameters:*
 
-**doInForeground:**
+        >`block`
 
->Submits the given block for synchronous execution on the main thread.
+        >>The block to execute asynchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
 
-        + (void)doInForeground:(void (^)(void))block
+        **doInForeground:**
 
->*Parameters:*
+        >Submits the given block for synchronous execution on the main thread.
 
->`block`
+                + (void)doInForeground:(void (^)(void))block
 
->>The block to execute synchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
+        >*Parameters:*
 
-**doInForeground:after:**
+        >`block`
 
->Executes a block on the main thread after the specified time.
+        >>The block to execute synchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
 
-        + (void)doInForeground:(void (^)(void))block after:(NSTimeInterval)interval
+        **doInForeground:after:**
 
->*Parameters:*
+        >Executes a block on the main thread after the specified time.
 
->`block`
+                + (void)doInForeground:(void (^)(void))block after:(NSTimeInterval)interval
 
->>The block to execute synchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
+        >*Parameters:*
 
->`interval`
+        >`block`
 
->>The amount of time in seconds to wait before executing the given block.
+        >>The block to execute synchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
 
-**doInForeground:when:**
+        >`interval`
 
->Executes a block on the main thread when the specified condition becomes true.
+        >>The amount of time in seconds to wait before executing the given block.
 
-        + (void)doInForeground:(void (^)(void))block when:(_Bool)condition
+        **doInForeground:when:**
 
->*Parameters:*
+        >Executes a block on the main thread when the specified condition becomes true.
 
->`block`
+                + (void)doInForeground:(void (^)(void))block when:(_Bool)condition
 
->>The block to execute synchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
+        >*Parameters:*
 
->`condition`
+        >`block`
 
->>The condition to wait for prior to executing the given block.
+        >>The block to execute synchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
 
-**doInForeground:every:**
+        >`condition`
 
->Repeatedly executes a block on the main thread after waiting for the specified time.
+        >>The condition to wait for prior to executing the given block.
 
-         + (void)doInForeground:(void (^)(void))block every:(NSTimeInterval)interval
+        **doInForeground:every:**
 
->*Parameters:*
+        >Repeatedly executes a block on the main thread after waiting for the specified time.
 
->`block`
+                 + (void)doInForeground:(void (^)(void))block every:(NSTimeInterval)interval
 
->>The block to execute synchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
+        >*Parameters:*
 
->`interval`
+        >`block`
 
->>The amount of time in seconds to wait between executing the given block.
+        >>The block to execute synchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
 
-**doInBackground:every:**
+        >`interval`
 
->Repeatedly executes a block on the main thread after waiting for the specified time.
+        >>The amount of time in seconds to wait between executing the given block.
 
-         + (void)doInBackground:(void (^)(void))block every:(NSTimeInterval)interval
+        **doInBackground:every:**
 
->*Parameters:*
+        >Repeatedly executes a block on the main thread after waiting for the specified time.
 
->`block`
+                 + (void)doInBackground:(void (^)(void))block every:(NSTimeInterval)interval
 
->>The block to execute asynchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
+        >*Parameters:*
 
->`interval`
+        >`block`
 
->>The amount of time in seconds to wait between executing the given block.
+        >>The block to execute asynchronously. This function performs `Block_copy` and `Block_release` on behalf of callers.
 
-**doOnce:**
+        >`interval`
 
->Execute a block of code once in the lifetime of the program.
+        >>The amount of time in seconds to wait between executing the given block.
 
-        + (void)doOnce:(void (^)(void))block
-        
->*Parameters:*
+        **doOnce:**
 
->`block`
+        >Execute a block of code once in the lifetime of the program.
 
->>The block to execute once.
+                + (void)doOnce:(void (^)(void))block
+                
+        >*Parameters:*
 
-##Macros##
+        >`block`
 
-**sync**
+        >>The block to execute once.
 
->Terminates the current function based on the value of the given semaphore.
+        ##Macros##
 
-        sync(semaphore)
+        **sync**
 
->*Parameters:*
+        >Terminates the current function based on the value of the given semaphore.
 
->`semaphore`
+                sync(semaphore)
 
->>The value used to determine whether the currently-executing function should terminate.
+        >*Parameters:*
+
+        >`semaphore`
+
+        >>The value used to determine whether the currently-executing function should terminate.
+    */
 
 #License#
 
