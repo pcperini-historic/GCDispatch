@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GCDispatchQueue.h"
+#import "GCDispatchGroup.h"
 
 @interface GCDispatch : NSObject
 
