@@ -19,7 +19,7 @@
 
 @end
 
-
+static CGDispatchQueue *mainQueue;
 static GCDispatchQueue *backgroundQueue;
 
 @implementation GCDispatchQueue
