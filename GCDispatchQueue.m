@@ -22,7 +22,7 @@
 
 @end
 
-static CGDispatchQueue *mainQueue;
+static GCDispatchQueue *mainQueue;
 static GCDispatchQueue *backgroundQueue;
 
 @implementation GCDispatchQueue
@@ -39,6 +39,8 @@ static GCDispatchQueue *backgroundQueue;
     {
         mainQueue = [[GCDispatchQueue alloc] initWithDispatch_Queue: dispatch_get_main_queue()];
     });
+    
+    return mainQueue;
 }
 
 + (GCDispatchQueue *)backgroundQueue
@@ -49,6 +51,8 @@ static GCDispatchQueue *backgroundQueue;
         dispatch_queue_t queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
         backgroundQueue = [[GCDispatchQueue alloc] initWithDispatch_Queue: queue_t];
     });
+    
+    return backgroundQueue
 }
 
 #pragma mark - Class Accessors
