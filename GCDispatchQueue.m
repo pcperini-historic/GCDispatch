@@ -59,7 +59,7 @@ static GCDispatchQueue *backgroundQueue;
 }
 
 #pragma mark - Converters
-+ dispatch_AttrFromConcurrency:(GCDispatchQueueConcurrency)concurrency
++ (dispatch_queue_attr_t) dispatch_AttrFromConcurrency:(GCDispatchQueueConcurrency)concurrency
 {
     switch (concurrency)
     {
