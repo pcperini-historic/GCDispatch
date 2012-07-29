@@ -17,6 +17,9 @@
 #pragma mark - Initializers
 - (id)initWithDispatch_Queue:(dispatch_queue_t)queue_t;
 
+#pragma mark - Converters
++ (dispatch_queue_attr_t)dispatch_AttrFromConcurrency:(GCDispatchQueueConcurrency)concurrency;
+
 @end
 
 static CGDispatchQueue *mainQueue;
@@ -55,6 +58,19 @@ static GCDispatchQueue *backgroundQueue;
     return [[GCDispatchQueue alloc] initWithDispatch_Queue: queue_t];
 }
 
+#pragma mark - Converters
++ dispatch_AttrFromConcurrency:(GCDispatchQueueConcurrency)concurrency
+{
+    switch (concurrency)
+    {
+        case GCDispatchSerialQueue:
+            return DISPATCH_QUEUE_SERIAL;
+        
+        case GCDispatchConcurrentQueue:
+            return DISPATCH_QUEUE_CONCURRENT;
+    }
+}
+
 #pragma mark - Initializers
 - (id)initWithDispatch_Queue:(dispatch_queue_t)queue_t
 {
@@ -81,7 +97,7 @@ static GCDispatchQueue *backgroundQueue;
     
     label = aLabel;
     
-    dispatch_queue_attr_t attr = (dispatch_queue_attr_t) concurrency;
+    dispatch_queue_attr_t attr = [GCDispatchQueue dispatch_AttrFromConcurrency: concurrency];
     internalQueue = dispatch_queue_create([label UTF8String], attr);
     
     return self;

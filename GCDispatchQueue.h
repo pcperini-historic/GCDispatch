@@ -11,8 +11,8 @@
 #pragma mark - External Constants
 typedef enum
 {
-    GCDispatchSerialQueue = DISPATCH_QUEUE_SERIAL,
-    GCDispatchConcurrentQueue = DISPATCH_QUEUE_CONCURRENT
+    GCDispatchSerialQueue,
+    GCDispatchConcurrentQueue
 } GCDispatchQueueConcurrency;
 
 @interface GCDispatchQueue : NSObject
