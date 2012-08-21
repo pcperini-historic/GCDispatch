@@ -52,7 +52,7 @@ static GCDispatchQueue *backgroundQueue;
         backgroundQueue = [[GCDispatchQueue alloc] initWithDispatch_Queue: queue_t];
     });
     
-    return backgroundQueue
+    return backgroundQueue;
 }
 
 #pragma mark - Class Accessors
