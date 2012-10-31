@@ -3,7 +3,7 @@
 //  GCDispatch
 //
 //  Created by Patrick Perini on 7/19/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Licensing information available in README.md
 //
 
 #import "GCDispatchQueue.h"

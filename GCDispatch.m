@@ -3,7 +3,7 @@
 //  GCDispatch
 //
 //  Created by Patrick Perini on 7/19/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Licensing information available in README.md
 //
 
 #import "GCDispatch.h"
@@ -77,11 +77,11 @@ static GCDispatchQueue *conditionalEvaluationQueue;
 + (void)performBlock:(void (^)())block when:(_Bool (^)())conditionalBlock
 {
     [self performBlock: block
-               inQueue: [GCDispatchQueue mainQueue]
-                  when: conditionalBlock];
+                  when: conditionalBlock
+               inQueue: [GCDispatchQueue mainQueue]];
 }
 
-+ (void)performBlock:(void (^)())block inQueue:(GCDispatchQueue *)queue when:(bool (^)())conditionalBlock
++ (void)performBlock:(void (^)())block when:(bool (^)())conditionalBlock inQueue:(GCDispatchQueue *)queue
 {
     void (^evaluationBlock)() = ^()
     {

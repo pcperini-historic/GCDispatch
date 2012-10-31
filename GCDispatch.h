@@ -3,7 +3,7 @@
 //  GCDispatch
 //
 //  Created by Patrick Perini on 7/19/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Licensing information available in README.md
 //
 
 #import <Foundation/Foundation.h>
@@ -26,6 +26,6 @@
 + (void)performBlockOnce:(void (^)())block withToken:(dispatch_once_t)token;
 
 + (void)performBlock:(void (^)())block when:(_Bool(^)())conditionalBlock;
-+ (void)performBlock:(void (^)())block inQueue:(GCDispatchQueue *)queue when:(_Bool(^)())conditionalBlock;
++ (void)performBlock:(void (^)())block when:(_Bool(^)())conditionalBlock inQueue:(GCDispatchQueue *)queue;
 
 @end
