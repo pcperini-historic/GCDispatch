@@ -38,4 +38,7 @@ typedef enum
 - (void)performBlock:(void (^)())block synchronously:(BOOL)synchronously;
 - (void)performSelector:(SEL)selector onTarget:(id)target synchronously:(BOOL)synchronously;
 
+- (void)performBlocks:(NSArray *)blocks;
+- (void)performSelectors:(SEL *)selectors onTargets:(NSArray *)targets;
+
 @end

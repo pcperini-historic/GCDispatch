@@ -143,4 +143,37 @@ static GCDispatchQueue *backgroundQueue;
     [self performBlock: block synchronously: synchronously];
 }
 
+- (void)performBlocks:(NSArray *)blocks
+{
+    __block void (^blockPerformances)(NSInteger) = [^(NSInteger blockIndex)
+    {
+        if (blockIndex >= [blocks count])
+        {
+            blockPerformances = nil;
+            return;
+        }
+        
+        [self performBlock: [blocks objectAtIndex: blockIndex]];
+    } copy];
+    
+    blockPerformances(0);
+}
+
+- (void)performSelectors:(SEL *)selectors onTargets:(NSArray *)targets
+{
+    __block void (^selectorPerformances)(NSInteger) = [^(NSInteger selectorIndex)
+    {
+        if (selectorIndex >= [targets count])
+        {
+            selectorPerformances = nil;
+            return;
+        }
+        
+        [self performSelector: selectors[selectorIndex]
+                     onTarget: [targets objectAtIndex: selectorIndex]];
+    } copy];
+    
+    selectorPerformances(0);
+}
+
 @end

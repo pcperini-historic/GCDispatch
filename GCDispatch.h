@@ -14,7 +14,10 @@
 
 #pragma mark - Convenience Performers
 + (void)performBlockInForeground:(void(^)())block;
++ (void)performBlocksInForeground:(NSArray *)blocks;
+
 + (void)performBlockInBackground:(void(^)())block;
++ (void)performBLocksInBackground:(NSArray *)blocks;
 
 #pragma mark - Misc. Performers
 + (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay;

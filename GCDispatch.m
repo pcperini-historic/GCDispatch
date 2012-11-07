@@ -38,9 +38,19 @@ static GCDispatchQueue *conditionalEvaluationQueue;
     [[GCDispatchQueue mainQueue] performBlock: block];
 }
 
++ (void)performBlocksInForeground:(NSArray *)blocks
+{
+    [[GCDispatchQueue mainQueue] performBlocks: blocks];
+}
+
 + (void)performBlockInBackground:(void (^)())block
 {
     [[GCDispatchQueue backgroundQueue] performBlock: block];
+}
+
++ (void)performBLocksInBackground:(NSArray *)blocks
+{
+    [[GCDispatchQueue backgroundQueue] performBlocks: blocks];
 }
 
 #pragma mark - Misc. Performers
