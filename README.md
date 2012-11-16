@@ -12,32 +12,62 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 ##Tasks##
 
-###Running Tasks by Queue###
-    + performBlockInForeground:
-    + performBlockInBackground:
+###Performing Tasks on the Main Queue###
+    + performBlockInMainQueue:
+    + performBlockInMainQueue:completion:
+    + performBlocksInMainQueue:
+    + performBlocksInMainQueue:completion:
+
+###Performing Tasks on the Background Queue###
+    + performBlockInBackgroundQueue:
+    + performBlockInBackgroundQueue:completion:
+    + performBlocksInBackgroundQueue:
+    + performBlocksInBackgroundQueue:completion:
     
 ###Running Tasks after Delay###
-    + performBlock:afterDelay:
-    + performBlock:afterDelay:inQueue:
+    + performBlock:inMainQueueAfterDelay:
+    + performBlock:inQueue:afterDelay:
     
 ###Running Tasks Repeatedly###
-    + performBlock:numberOfTimes:
-    + performBlock:numberOfTimes:inQueue:
+    + performBlock:inMainQueueNumberOfTimes:
+    + performBlock:inQueue:numberOfTimes:
 
 ###Running Tasks Once ###
-    + performBlockOnce:withToken:
+    + performBlockOnce:inMainQueueWithToken:
     
 ###Running Tasks by Condition###
-    + performBlock:when:
-    + performBlock:when:inQueue:    
+    + performBlock:inMainQueueWhen:
+    + performBlock:inQueue:when:
+
+##`typedefs`##
+
+    typedef size_t GCDispatchIteration;
+
+> Used to indicate the current iteration in `GCDispatchIterativeBlock`s.
+
+    typedef dispatch_once_t GCDispatchOnceToken;
+    
+> Used to determine if work has been performed before.
+
+    typedef void(^GCDispatchBlock)();
+    
+> A `void`-returning block that takes no parameters.
+
+    typedef void(^GCDispatchIterativeBlock)(GCDispatchIteration currentIteration);
+    
+> A `void`-returning block that takes a `GCDispatchIteration` representing the current iteration.
+
+    typedef _Bool(^GCDispatchConditionalBlock)();
+    
+> A block that takes no parameters are returns either a truthy or falsey value.
 
 ##Class Methods##
 
-**performBlockInForeground:**
+**performBlockInMainQueue:**
 
 > Submits the given block for executing on the main queue and returns immediately.
 
-    + (void)performBlockInForeground:(void(^)())block;
+    + (void)performBlockInMainQueue:(GCDispatchBlock)block;
 
 >*Parameters:*
 
@@ -45,11 +75,55 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 >>The block to execute on the main queue.
 
-**performBlockInBackground:**
+**performBlockInMainQueue:completion:**
+
+> Submits the given block for executing on the main queue and returns immediately.
+
+    + (void)performBlockInMainQueue:(GCDispatchBlock)block completion:(GCDispatchBlock)completion;
+    
+>*Parameters:*
+
+>`block`
+
+>>The block to execute on the main queue.
+
+>`completion`
+
+>>The block to execute on the main queue when `block` has completed.
+
+**performBlocksInMainQueue:**
+
+> Submits the given blocks for executing, in sequence, on the main queue and returns immediately.
+
+    + (void)performBlocksInMainQueue:(NSArray *)blocks;
+    
+>*Parameters:*
+
+>`blocks`
+
+>>The blocks to execute on the main queue.
+
+**performBlocksInMainQueue:completion:**
+
+> Submits the given blocks for executing, in sequence, on the main queue and returns immediately.
+
+    + (void)performBlocksInMainQueue:(NSArray *)blocks completion:(GCDispatchBlock)completion;
+    
+>*Parameters:*
+
+>`blocks`
+
+>>The blocks to execute on the main queue.
+
+>`completion`
+
+>>The block to execute on the main queue when `block` has completed.
+
+**performBlockInBackgroundQueue:**
 
 > Submits the given block for executing on a background queue and returns immediately.
 
-    + (void)performBlockInBackground:(void(^)())block;
+    + (void)performBlockInBackgroundQueue:(GCDispatchBlock)block;
 
 >*Parameters:*
 
@@ -57,9 +131,53 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 >>The block to execute on a background queue.
 
-**performBlock:afterDelay:**
+**performBlockInBackgroundQueue:completion:**
 
-    + (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay;
+> Submits the given block for executing on the background queue and returns immediately.
+
+    + (void)performBlockInBackgroundQueue:(GCDispatchBlock)block completion:(GCDispatchBlock)completion;
+    
+>*Parameters:*
+
+>`block`
+
+>>The block to execute on the background queue.
+
+>`completion`
+
+>>The block to execute on the main queue when `block` has completed.
+
+**performBlocksInBackgroundQueue:**
+
+> Submits the given blocks for executing, in sequence, on the background queue and returns immediately.
+
+    + (void)performBlocksInBackgroundQueue:(NSArray *)blocks;
+    
+>*Parameters:*
+
+>`blocks`
+
+>>The blocks to execute on the main queue.
+
+**performBlocksInBackgroundQueue:completion:**
+
+> Submits the given blocks for executing, in sequence, on the background queue and returns immediately.
+
+    + (void)performBlocksInBackgroundQueue:(NSArray *)blocks completion:(GCDispatchBlock)completion;
+    
+>*Parameters:*
+
+>`blocks`
+
+>>The blocks to execute on the background queue.
+
+>`completion`
+
+>>The block to execute on the main queue when `block` has completed.
+
+**performBlock:inMainQueueAfterDelay:**
+
+    + (void)performBlock:(GCDispatchBlock)block inMainQueueAfterDelay:(NSTimeInterval)delay;
 
 > Executes a block on the main queue after the specified time.
 
@@ -73,9 +191,9 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 >>The amount of time in seconds to wait before executing the given block.
 
-**performBlock:afterDelay:inQueue:**
+**performBlock:inQueue:afterDelay:**
 
-    + (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay inQueue:(GCDispatchQueue *)queue;
+    + (void)performBlock:(GCDispatchBlock)block inQueue:(GCDispatchQueue *)queue afterDelay:(NSTimeInterval)delay;
 
 > Executes a block on the given queue after the specified time.
 
@@ -93,9 +211,9 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 >>A `GCDispatchQueue` object representing the desired `dispatch_queue` on which to run the given block.
 
-**performBlock:numberOfTimes:**
+**performBlock:inMainQueueNumberOfTimes:**
 
-    + (void)performBlock:(void(^)(size_t currentIteration))block numberOfTimes:(NSInteger)times;
+    + (void)performBlock:(GCDispatchIterativeBlock)block inMainQueueNumberOfTimes:(NSInteger)times;
     
 > Executes a block on the main queue the specified number of times.
 
@@ -111,12 +229,11 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 >*Discussion:*
 
->>The `size_t` block parameter, `currentIteration`, represents the number of times this block has been run so far.
+>>The `GCDispatchIteration` block parameter, `currentIteration`, represents the number of times this block has been run so far.
 
+**performBlock:inQueue:numberOfTimes:**
 
-**performBlock:numberOfTimes:inQueue:**
-
-    + (void)performBlock:(void(^)(size_t currentIteration))block numberOfTimes:(NSInteger)times inQueue:(GCDispatchQueue *)queue;
+    + (void)performBlock:(GCDispatchIterativeBlock)block inQueue:(GCDispatchQueue *)queue numberOfTimes:(NSInteger)times;
     
 > Executes a block on the main queue the specified number of times.
 
@@ -136,11 +253,11 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 >*Discussion:*
 
->>The `size_t` block parameter, `currentIteration`, represents the number of times this block has been run so far.
+>>The `GCDispatchIteration` block parameter, `currentIteration`, represents the number of times this block has been run so far.
 
-**performBlockOnce:withToken:**
+**performBlockOnce:inMainQueueWithToken:**
 
-    + (void)performBlockOnce:(void(^)())block withToken:(dispatch_once_t)token;
+    + (void)performBlockOnce:(GCDispatchBlock)block inMainQueueWithToken:(GCDispatchOnceToken)token;
     
 > Executes a block on the main queue exactly once.
 
@@ -152,11 +269,11 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 >`token`
 
->>The `static dispatch_once_t` token used to determine whether or not this block has run before.
+>>The `static GCDispatchOnceToken` token used to determine whether or not this block has run before.
 
-**performBlock:when:**
+**performBlock:inMainQueueWhen:**
 
-    + (void)performBlock:(void(^)())block when:(_Bool(^)())conditionalBlock;
+    + (void)performBlock:(GCDispatchBlock)block inMainQueueWhen:(GCDispatchConditionalBlock)conditionalBlock;
     
 > Executes a block when the given conditional block returns truthfully.
 
@@ -170,9 +287,9 @@ To use this class, simply run the method most applicable to your concurrency nee
 
 >>The block that, when it returns a truthy value, causes the execution of the given block.
 
-**performBlock:when:inQueue:**
+**performBlock:inQueue:when:**
 
-    + (void)performBlock:(void(^)())block when:(_Bool(^)())conditionalBlock inQueue:(GCDispatchQueue *)queue;
+    + (void)performBlock:(GCDispatchBlock)block when:(GCDispatchConditionalBlcok)conditionalBlock inQueue:(GCDispatchQueue *)queue;
     
 > Executes a block when the given conditional block returns truthfully.
 
@@ -215,13 +332,13 @@ The `GCDispatchQueue` class provides a wrapper around Grand Central Dispatch que
     label (property)
     
 ###Determining the Current State###
-    + currentQueue
+    + currentQueueIsMainQueue
     
 ###Performing Actions###
     - performBlock:
-    - performSelector:onTarget:
-    - performBlock:synchronously:
-    - performSelector:onTarget:synchronously:
+    - performBlock:completion:
+    - performBlocks:
+    - performBlocks:completion:
 
 ##Class Methods##
 
@@ -245,15 +362,15 @@ The `GCDispatchQueue` class provides a wrapper around Grand Central Dispatch que
 
 >> A `GCDispatchQueue` object representing a `dispatch_queue` with `DISPATCH_QUEUE_PRIORITY_BACKGROUND`.
 
-**currentQueue**
+**currentQueueIsMainQueue**
 
-> A `GCDispatchQueue` object representing the queue on which the code is currently running.
+> Returns `YES` if the current queue is the main queue.
 
-    + (GCDispatchQueue *)currentQueue;
+    + (BOOL)currentQueueIsMainQueue;
     
 >*Returns:*
 
->> A `GCDispatchQueue` object representing the queue on which the code is currently running.
+>> `YES` if the current queue is the main queue.
 
 ##Properties##
 
@@ -303,9 +420,9 @@ The `GCDispatchQueue` class provides a wrapper around Grand Central Dispatch que
 
 **performBlock:**
 
-    - (void)performBlock:(void(^)())block;
+    - (void)performBlock:(GCDispatchBlock)block;
     
-> Performs the given block on this queue asynchronously.
+> Performs the given block on this queue.
 
 >*Parameters:*
 
@@ -313,27 +430,11 @@ The `GCDispatchQueue` class provides a wrapper around Grand Central Dispatch que
 
 >>The block to perform on this queue.
 
-**performSelector:onTarget:**
+**performBlock:completion:**
 
-    - (void)performSelector:(SEL)selector onTarget:(id)target;
+    - (void)performBlock:(GCDispatchBlock)block completion:(GCDispatchBlock)completion;
     
-> Performs the given selector on the given target on this queue asynchronously.
-
->*Parameters:*
-
->`selector`
-
->>The selector to perform.
-
->`target`
-
->>The target on which to perform the given selector.
-
-**performBlock:synchronously:**
-
-    - (void)performBlock(void(^)())block synchronously:(BOOL)synchronously;
-
-> Performs the given block on this queue with the given synchronicity.
+> Performs the given block on this queue.
 
 >*Parameters:*
 
@@ -341,29 +442,37 @@ The `GCDispatchQueue` class provides a wrapper around Grand Central Dispatch que
 
 >>The block to perform on this queue.
 
->`synchronously`
+>`completion`
 
->>The synchronicty with which to run the given block.
+>>The block to execute on the main queue when `block` has completed.
 
-**performSelector:onTarget:synchronously:**
+**performBlocks:**
 
-    - (void)performSelector:(SEL)selector onTarget:(id)target synchronously:(BOOL)synchronously;
+    - (void)performBlock:(NSArray *)blocks;
     
-> Performs the given selector on the given target on this queue synchronously.
+> Performs the given blocks, in sequence, on this queue.
 
 >*Parameters:*
 
->`selector`
+>`blocks`
 
->>The selector to perform.
+>>The blocks to perform on this queue.
 
->`target`
+**performBlocks:completion:**
 
->>The target on which to perform the given selector.
+    - (void)performBlock:(NSArray *)blocks completion:(GCDispatchBlock)completion;
+    
+> Performs the given blocks, in sequence, on this queue.
 
->`synchronously`
+>*Parameters:*
 
->>The synchronicity with which to run the given block.
+>`blocks`
+
+>>The blocks to perform on this queue.
+
+>`completion`
+
+>>The block to execute on the main queue when `blocks` have completed.
 
 ##Constants##
 
@@ -380,116 +489,6 @@ The `GCDispatchQueue` class provides a wrapper around Grand Central Dispatch que
 >*Discussion:*
 
 >> Queues with concurrency `GCDispatchSerialQueue` execute a single task at a time, whereas queues with `GCDispatchConcurrentQueue` concurrency execute multiple tasks at a time.
-
-
-#GCDispatchGroup#
-
-Inherits From:    NSObject
-
-Declared In:      GCDispatchGroup.h
-
-##Overview##
-
-`GCDispatchGroup` provides a means of managing flow control for `GCDispatchQueue` objects. Dispatch groups can add completion blocks and timeouts to queues.
-
-##Tasks##
-
-###Adding Actions###
-    - addBlock:inQueue:
-    - addSelector:forTarget:inQueue:
-    
-###Adding Completion Actions###
-    - addCompletionBlock:inQueue:
-    - addCompletionSelector:forTarget:inQueue:
-    
-###Waiting###
-    - waitWithTimeout:
-    
-##Instance Methods##
-
-**addBlock:inQueue:**
-
-    - (void)addBlock:(void(^)())block inQueue:(GCDispatchQueue *)queue;
-
-> Adds the given block to the given queue for execution.
-
->*Parameters:*
-
->`block`
-
->>The block to add to the given queue.
-
->`queue`
-
->>A `GCDispatchQueue` object to which to add the given block.
-
-**addSelector:forTarget:inQueue:**
-
-    - (void)addSelector:(SEL)selector forTarget:(id)target inQueue;(GCDispatchQueue *)queue;
-    
-> Adds the given selector for the given target to the given queue for execution.
-
->*Parameters:*
-
->`selector`
-
->>The selector to add to the given queue.
-
->`target`
-
->>The target on which to perform the given selector.
-
->`queue`
-
->>A `GCDispatchQueue` object to which to add the given selector.
-
-**addCompletionBlock:inQueue:**
-
-    - (void)addCompletionBlock:(void(^)())block inQueue:(GCDispatchQueue *)queue;
-
-> Adds the given block to the given queue for execution upon queue completion.
-
->*Parameters:*
-
->`block`
-
->>The block to add to the queue for execution upon queue completion.
-
->`queue`
-
->>A `GCDispatchQueue` object to which to add the given block.
-
-**addCompletionSelector:forTarget:inQueue:**
-
-    - (void)addCompletionSelector:(SEL)selector forTarget:(id)target inQueue:(GCDispatchQueue *)queue
-    
-> Adds the given selector for the given target to the given queue for execution upon queue completion.
-
->*Parameters:*
-
->`selector`
-
->>The selector to add to the given queue for execution upon queue completion.
-
->`target`
-
->>The target on which to perform the given selector.
-
->`queue`
-
->>A `GCDispatchQueue` object to which to add the given selector.
-
-**waitWithTimeout:**
-
-    - (void)waitWithTimeout:(NSTimeInterval)timeout;
-    
-> Causes this dispatch group to wait for the given time interval.
-
->*Parameters:*
-
->`timeout`
-
->>The time interval, in seconds, for this group to wait.
 
 #License#
 

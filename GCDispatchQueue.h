@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GCDispatch.h"
 
 #pragma mark - External Constants
 typedef enum
@@ -25,20 +26,16 @@ typedef enum
 + (GCDispatchQueue *)backgroundQueue;
 
 #pragma mark - Class Accessors
-+ (GCDispatchQueue *)currentQueue;
++ (BOOL)currentQueueIsMainQueue;
 
 #pragma mark - Initializers
 - (id)initWithLabel:(NSString *)label;
 - (id)initWithLabel:(NSString *)label andConcurrency:(GCDispatchQueueConcurrency)concurrency;
 
 #pragma mark - Performers
-- (void)performBlock:(void (^)())block;
-- (void)performSelector:(SEL)selector onTarget:(id)target;
-
-- (void)performBlock:(void (^)())block synchronously:(BOOL)synchronously;
-- (void)performSelector:(SEL)selector onTarget:(id)target synchronously:(BOOL)synchronously;
-
+- (void)performBlock:(GCDispatchBlock)block;
+- (void)performBlock:(GCDispatchBlock)block completion:(GCDispatchBlock)completion;
 - (void)performBlocks:(NSArray *)blocks;
-- (void)performSelectors:(SEL *)selectors onTargets:(NSArray *)targets;
+- (void)performBlocks:(NSArray *)blocks completion:(GCDispatchBlock)completion;
 
 @end

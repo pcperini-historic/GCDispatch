@@ -15,10 +15,10 @@
 @property dispatch_queue_t internalQueue;
 
 #pragma mark - Initializers
-- (id)initWithDispatch_Queue:(dispatch_queue_t)queue_t;
+- (id)initWithDispatch_queue:(dispatch_queue_t)queue_t;
 
 #pragma mark - Converters
-+ (dispatch_queue_attr_t)dispatch_AttrFromConcurrency:(GCDispatchQueueConcurrency)concurrency;
++ (dispatch_queue_attr_t)dispatch_attrFromConcurrency:(GCDispatchQueueConcurrency)concurrency;
 
 @end
 
@@ -37,7 +37,7 @@ static GCDispatchQueue *backgroundQueue;
     static dispatch_once_t mainQueueInitializationToken;
     dispatch_once(&mainQueueInitializationToken, ^()
     {
-        mainQueue = [[GCDispatchQueue alloc] initWithDispatch_Queue: dispatch_get_main_queue()];
+        mainQueue = [[GCDispatchQueue alloc] initWithDispatch_queue: dispatch_get_main_queue()];
     });
     
     return mainQueue;
@@ -49,21 +49,20 @@ static GCDispatchQueue *backgroundQueue;
     dispatch_once(&backgroundQueueInitializationToken, ^()
     {
         dispatch_queue_t queue_t = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-        backgroundQueue = [[GCDispatchQueue alloc] initWithDispatch_Queue: queue_t];
+        backgroundQueue = [[GCDispatchQueue alloc] initWithDispatch_queue: queue_t];
     });
     
     return backgroundQueue;
 }
 
 #pragma mark - Class Accessors
-+ (GCDispatchQueue *)currentQueue
++ (BOOL)currentQueueIsMainQueue
 {
-    dispatch_queue_t queue_t = dispatch_get_current_queue();
-    return [[GCDispatchQueue alloc] initWithDispatch_Queue: queue_t];
+    return [[NSThread currentThread] isMainThread];
 }
 
 #pragma mark - Converters
-+ (dispatch_queue_attr_t) dispatch_AttrFromConcurrency:(GCDispatchQueueConcurrency)concurrency
++ (dispatch_queue_attr_t) dispatch_attrFromConcurrency:(GCDispatchQueueConcurrency)concurrency
 {
     switch (concurrency)
     {
@@ -76,7 +75,7 @@ static GCDispatchQueue *backgroundQueue;
 }
 
 #pragma mark - Initializers
-- (id)initWithDispatch_Queue:(dispatch_queue_t)queue_t
+- (id)initWithDispatch_queue:(dispatch_queue_t)queue_t
 {
     self = [super init];
     if (!self)
@@ -101,79 +100,71 @@ static GCDispatchQueue *backgroundQueue;
     
     label = aLabel;
     
-    dispatch_queue_attr_t attr = [GCDispatchQueue dispatch_AttrFromConcurrency: concurrency];
+    dispatch_queue_attr_t attr = [GCDispatchQueue dispatch_attrFromConcurrency: concurrency];
     internalQueue = dispatch_queue_create([label UTF8String], attr);
     
     return self;
 }
 
 #pragma mark - Performers
-- (void)performBlock:(void (^)())block
+- (void)performBlock:(GCDispatchBlock)block
 {
     [self performBlock: block
-         synchronously: NO];
+            completion: nil];
 }
 
-- (void)performSelector:(SEL)selector onTarget:(id)target
+- (void)performBlock:(GCDispatchBlock)block completion:(GCDispatchBlock)completion
 {
-    [self performSelector: selector
-                 onTarget: target
-            synchronously: NO];
-}
-
-- (void)performBlock:(void (^)())block synchronously:(BOOL)synchronously
-{
-    if (synchronously)
+    GCDispatchBlock performance = ^()
     {
-        dispatch_async(internalQueue, block);
-    }
-    else
-    {
-        dispatch_sync(internalQueue, block);
-    }
-}
-
-- (void)performSelector:(SEL)selector onTarget:(id)target synchronously:(BOOL)synchronously
-{
-    void (^block)() = ^()
-    {
-        objc_msgSend(target, selector);
+        block();
+        if (completion)
+        {
+            dispatch_async([[GCDispatchQueue mainQueue] internalQueue], completion);
+        }
     };
     
-    [self performBlock: block synchronously: synchronously];
+    dispatch_async(internalQueue, performance);
 }
 
 - (void)performBlocks:(NSArray *)blocks
 {
-    __block void (^blockPerformances)(NSInteger) = [^(NSInteger blockIndex)
-    {
-        if (blockIndex >= [blocks count])
-        {
-            blockPerformances = nil;
-            return;
-        }
-        
-        [self performBlock: [blocks objectAtIndex: blockIndex]];
-    } copy];
-    
-    blockPerformances(0);
+    [self performBlocks: blocks
+             completion: nil];
 }
 
-- (void)performSelectors:(SEL *)selectors onTargets:(NSArray *)targets
+- (void)performBlocks:(NSArray *)blocks completion:(GCDispatchBlock)completion
 {
-    __block void (^selectorPerformances)(NSInteger) = [^(NSInteger selectorIndex)
+    __block NSInteger currentIteration = -1;
+    __block GCDispatchBlock performances = [^()
     {
-        if (selectorIndex >= [targets count])
+        currentIteration++;
+        if (currentIteration >= [blocks count])
         {
-            selectorPerformances = nil;
+            if (completion)
+            {
+                dispatch_async([[GCDispatchQueue mainQueue] internalQueue], completion);
+            }
+            
+            performances = nil;
             return;
         }
         
-        [self performSelector: selectors[selectorIndex]
-                     onTarget: [targets objectAtIndex: selectorIndex]];
+        [self performBlock: [blocks objectAtIndex: currentIteration]
+                completion: performances];
     } copy];
     
-    selectorPerformances(0);
+    dispatch_async(internalQueue, performances);
+}
+
+#pragma mark - Accessors
+- (BOOL)isEqual:(id)object
+{
+    BOOL objectsAreEqual = YES;
+    objectsAreEqual &= ([self internalQueue] == [object internalQueue]);
+    objectsAreEqual &= ([[self label] isEqualToString: [object label]]);
+    
+    return objectsAreEqual;
 }
 
 @end
