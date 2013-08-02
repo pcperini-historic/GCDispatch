@@ -12,6 +12,7 @@
 #pragma mark - Types
 typedef size_t GCDispatchIteration;
 typedef dispatch_once_t GCDispatchOnceToken;
+typedef dispatch_source_t GCDispatchTimer;
 
 typedef void(^GCDispatchBlock)();
 typedef void(^GCDispatchIterativeBlock)(GCDispatchIteration currentIteration);
@@ -42,5 +43,7 @@ typedef _Bool(^GCDispatchConditionalBlock)();
 
 + (void)performBlock:(GCDispatchBlock)block inMainQueueWhen:(GCDispatchConditionalBlock)conditionalBlock;
 + (void)performBlock:(GCDispatchBlock)block inQueue:(GCDispatchQueue *)queue when:(GCDispatchConditionalBlock)conditionalBlock;
+
++ (void)performBlock:(GCDispatchBlock)block inQueue:(GCDispatchQueue *)queue periodicallyWithTimeInterval:(NSTimeInterval)timeInterval timer:(GCDispatchTimer *)timer;
 
 @end

@@ -133,4 +133,17 @@ NSString *const GCDispatchConditionalEvaluationQueueLabelFormat = @"%@.condition
     [conditionalEvaluationQueue performBlock: evalutationBlock];
 }
 
++ (void)performBlock:(GCDispatchBlock)block inQueue:(GCDispatchQueue *)queue periodicallyWithTimeInterval:(NSTimeInterval)timeInterval timer:(GCDispatchTimer *)timerPointer
+{
+    GCDispatchTimer timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, [queue internalQueue]);
+    if (!timer)
+        return;
+    
+    dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), timeInterval * NSEC_PER_SEC, FLT_EPSILON * NSEC_PER_SEC);
+    dispatch_source_set_event_handler(timer, block);
+    
+    dispatch_resume(timer);
+    *timerPointer = timer;
+}
+
 @end
