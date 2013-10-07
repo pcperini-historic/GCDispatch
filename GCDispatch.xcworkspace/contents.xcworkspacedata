@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:GCDispatchTests/GCDispatchTests.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:GCDispatch.h">
+   </FileRef>
+   <FileRef
+      location = "group:GCDispatchQueue.h">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:GCDispatch.m">
+   </FileRef>
+   <FileRef
+      location = "group:GCDispatchQueue.m">
+   </FileRef>
+</Workspace>

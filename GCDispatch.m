@@ -9,7 +9,7 @@
 #import "GCDispatch.h"
 #import "GCDispatchQueue.h"
 
-@interface GCDispatchQueue (___)
+@interface GCDispatchQueue ()
 
 #pragma mark - Properties
 @property dispatch_queue_t internalQueue;
@@ -125,7 +125,9 @@ NSString *const GCDispatchConditionalEvaluationQueueLabelFormat = @"%@.condition
     GCDispatchBlock evalutationBlock = ^()
     {
         while (!conditionalBlock())
-            sleep(1);
+        {
+            [[NSRunLoop mainRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1]];
+        }
         
         [queue performBlock: block];
     };
@@ -145,5 +147,28 @@ NSString *const GCDispatchConditionalEvaluationQueueLabelFormat = @"%@.condition
     dispatch_resume(timer);
     *timerPointer = timer;
 }
+
++ (void)performBlockRecursively:(GCDispatchContinuousBlock)block inQueue:(GCDispatchQueue *)queue;
+{
+    __block GCDispatchBlock recursiveBlockPerformer;
+    __block GCDispatchIteration index = 0;
+    GCDispatchBlock blockPerformer = ^()
+    {
+        BOOL continuePerforming = block(index);
+        index++;
+        
+        if (!continuePerforming)
+        {
+            recursiveBlockPerformer = nil;
+            return;
+        }
+        
+        [queue performBlock: recursiveBlockPerformer];
+    };
+    
+    recursiveBlockPerformer = [blockPerformer copy];
+    [queue performBlock: recursiveBlockPerformer];
+}
+
 
 @end

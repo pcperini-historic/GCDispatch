@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>19C3D66D-2BDF-404E-B064-54928F4216EE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>GCDispatch</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B686698E-D55B-460C-AF37-167D81D90799</key>
+		<string>https://github.com/pcperini/GCDispatch</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>GCDispatch.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B686698E-D55B-460C-AF37-167D81D90799</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/pcperini/GCDispatch</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B686698E-D55B-460C-AF37-167D81D90799</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B686698E-D55B-460C-AF37-167D81D90799</string>
+			<key>IDESourceControlWCCName</key>
+			<string>GCDispatch</string>
+		</dict>
+	</array>
+</dict>
+</plist>
