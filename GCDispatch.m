@@ -148,7 +148,14 @@ NSString *const GCDispatchConditionalEvaluationQueueLabelFormat = @"%@.condition
     *timerPointer = timer;
 }
 
-+ (void)performBlockRecursively:(GCDispatchContinuousBlock)block inQueue:(GCDispatchQueue *)queue;
++ (void)performBlockRecursively:(GCDispatchContinuousBlock)block inQueue:(GCDispatchQueue *)queue
+{
+    [self performBlockRecursively: block
+                          inQueue: queue
+                 withTimeInterval: 0];
+}
+
++ (void)performBlockRecursively:(GCDispatchContinuousBlock)block inQueue:(GCDispatchQueue *)queue withTimeInterval:(NSTimeInterval)timeInterval
 {
     __block GCDispatchBlock recursiveBlockPerformer;
     __block GCDispatchIteration index = 0;
@@ -170,7 +177,9 @@ NSString *const GCDispatchConditionalEvaluationQueueLabelFormat = @"%@.condition
             return;
         }
         
-        [queue performBlock: recursiveBlockPerformer];
+        [GCDispatch performBlock: recursiveBlockPerformer
+                         inQueue: queue
+                      afterDelay: timeInterval];
     };
     
     recursiveBlockPerformer = [blockPerformer copy];

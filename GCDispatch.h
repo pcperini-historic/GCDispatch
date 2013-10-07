@@ -48,5 +48,6 @@ typedef void(^GCDispatchContinuousBlock)(GCDispatchIteration currentIteration, B
 + (void)performBlock:(GCDispatchBlock)block inQueue:(GCDispatchQueue *)queue periodicallyWithTimeInterval:(NSTimeInterval)timeInterval timer:(GCDispatchTimer *)timer;
 
 + (void)performBlockRecursively:(GCDispatchContinuousBlock)block inQueue:(GCDispatchQueue *)queue;
++ (void)performBlockRecursively:(GCDispatchContinuousBlock)block inQueue:(GCDispatchQueue *)queue withTimeInterval:(NSTimeInterval)timeInterval;
 
 @end

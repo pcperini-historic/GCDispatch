@@ -30,7 +30,7 @@
         }
         
         NSLog(@"%zu", currentIteration);
-    } inQueue: [GCDispatchQueue mainQueue]];
+    } inQueue: [GCDispatchQueue mainQueue] withTimeInterval: 0.5];
 }
 
 - (void)didReceiveMemoryWarning
