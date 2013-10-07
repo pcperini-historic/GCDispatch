@@ -154,10 +154,17 @@ NSString *const GCDispatchConditionalEvaluationQueueLabelFormat = @"%@.condition
     __block GCDispatchIteration index = 0;
     GCDispatchBlock blockPerformer = ^()
     {
-        BOOL continuePerforming = block(index);
+        BOOL stop = NO;
+        BOOL loop = NO;
+        block(index, &loop, &stop);
         index++;
         
-        if (!continuePerforming)
+        if (loop)
+        {
+            index = 0;
+        }
+        
+        if (stop)
         {
             recursiveBlockPerformer = nil;
             return;

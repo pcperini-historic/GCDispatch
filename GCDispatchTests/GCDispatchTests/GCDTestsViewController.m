@@ -21,13 +21,15 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    [GCDispatch performBlockRecursively: ^BOOL (GCDispatchIteration currentIteration)
+    [GCDispatch performBlockRecursively: ^(GCDispatchIteration currentIteration, BOOL *loop, BOOL *stop)
     {
         if (currentIteration > 10)
-            return NO;
+        {
+            *stop = YES;
+            return;
+        }
         
         NSLog(@"%zu", currentIteration);
-        return YES;
     } inQueue: [GCDispatchQueue mainQueue]];
 }
 

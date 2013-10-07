@@ -17,7 +17,7 @@ typedef dispatch_source_t GCDispatchTimer;
 typedef void(^GCDispatchBlock)();
 typedef void(^GCDispatchIterativeBlock)(GCDispatchIteration currentIteration);
 typedef _Bool(^GCDispatchConditionalBlock)();
-typedef BOOL(^GCDispatchContinuousBlock)(GCDispatchIteration currentIteration);
+typedef void(^GCDispatchContinuousBlock)(GCDispatchIteration currentIteration, BOOL *loop, BOOL *stop);
 
 @interface GCDispatch : NSObject
 
