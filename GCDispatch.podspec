@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "GCDispatch"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "A simple interface for utilizing several of the Grand Central Dispatch functions."
 
   s.description  = <<-DESC
@@ -75,7 +75,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/pcperini/GCDispatch.git", :tag => "v1.0.0" }
+  s.source       = { :git => "https://github.com/pcperini/GCDispatch.git", :tag => "v1.0.1" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
