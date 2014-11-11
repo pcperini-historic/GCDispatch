@@ -126,7 +126,7 @@ NSString *const GCDispatchConditionalEvaluationQueueLabelFormat = @"%@.condition
     {
         while (!conditionalBlock())
         {
-            [[NSRunLoop mainRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow: 1]];
+            sleep(1);
         }
         
         [queue performBlock: block];
